@@ -35,21 +35,24 @@ public class Main {
         lcgRanduTests(lcgRanduArray);
     }
 
-    private static void lcgRanduTests(double[] lcgRanduArray) {
-        System.out.println("\nLCG RANDU TESTS");
+    private static void nativeTests(double[] javaRandomArray) {
+        System.out.println("\nNATIVE TESTS");
         // Insert tests here...
-        KolmogorovSmirnovTest.RunTest(lcgRanduArray);
+        KolmogorovSmirnovTest.RunTest(javaRandomArray);
+        ChiSquaredTest.RunTest(javaRandomArray);
     }
 
     private static void lcgTests(double[] lcgArray) {
         System.out.println("\nLCG TESTS");
         // Insert tests here...
         KolmogorovSmirnovTest.RunTest(lcgArray);
+        ChiSquaredTest.RunTest(lcgArray);
     }
 
-    private static void nativeTests(double[] javaRandomArray) {
-        System.out.println("\nNATIVE TESTS");
+    private static void lcgRanduTests(double[] lcgRanduArray) {
+        System.out.println("\nLCG RANDU TESTS");
         // Insert tests here...
-        KolmogorovSmirnovTest.RunTest(javaRandomArray);
+        KolmogorovSmirnovTest.RunTest(lcgRanduArray);
+        ChiSquaredTest.RunTest(lcgRanduArray);
     }
 }

@@ -32,9 +32,11 @@ public class KolmogorovSmirnovTest {
 
         // Compare
         if (d <= dAlpha) {
-            System.out.println("H_0 has been ACCEPTED");
+            System.out.println("H_0 has NOT been rejected");
         } else {
-            System.out.println("H_0 has been REJECTED");
+            System.out.println("H_0 has been rejected");
         }
+
+        System.out.println();
     }
 }

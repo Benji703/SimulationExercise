@@ -4,7 +4,10 @@ public class KolmogorovSmirnovTest {
 
     public static void RunTest(double[] randomNumbersArray) {
         System.out.println("Running Kolmogorov Smirnov test:");
+
+        randomNumbersArray = Arrays.stream(randomNumbersArray).limit(100).toArray();
         int N = randomNumbersArray.length;
+        System.out.println("N: " + N);
 
         double[] sorted = Arrays.stream(randomNumbersArray).sorted().toArray();
 

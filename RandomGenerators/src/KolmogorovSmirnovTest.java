@@ -18,7 +18,7 @@ public class KolmogorovSmirnovTest {
         for (int i = 0; i < sorted.length; i++) {
             double Ri = sorted[i];
 
-            dPlus[i] = (i / (double) N) - Ri;
+            dPlus[i] = ((i+1) / (double) N) - Ri;
             dMinus[i] = Ri - (i / (double) N);
         }
 

@@ -2,90 +2,102 @@ import java.util.Arrays;
 
 public class RunsTest {
     public static void RunTest(double[] numberArray) {
-        //Find median number in array
-        double[] sortedArray = Arrays.stream(numberArray).sorted().toArray();
+        System.out.println("Running Runs test:");
+        int doF = 6; //Degrees of Freedom(DoF)
+        double alpha = 0.05; //Level of Significances(LoS)
 
-        double median;
-        if (sortedArray.length % 2 == 0)
-            median = ((double)sortedArray[sortedArray.length/2] + (double)sortedArray[sortedArray.length/2 - 1])/2;
-        else
-            median = (double) sortedArray[sortedArray.length/2];
+        //Observe number of runs as well as count length of each run
+        int runLength = 0;
+        int[] observedRuns = new int[doF];
 
-        //Create new array with symbols instead of numbers
-        String[] symbolArray = new String[numberArray.length];
-        for (int i = 0; i < numberArray.length; i++){
-            if (numberArray[i] < median) {
-                symbolArray[i] = "a";
-            }
-            if (numberArray[i] > median) {
-                symbolArray[i] = "b";
-            }
+        boolean previousWasSmaller = false;
+        if(numberArray[1] > numberArray[0]){
+            previousWasSmaller = true;
+        } else {
+            previousWasSmaller =false;
         }
 
-        //Counting number of types and runs
-        int n_1 = 0; //number of the first type
-        int n_2 = 0; //number of the second type
-        int g = 0; //number of runs
-
-        String previousLetter =  null;
-
-        for(String value : symbolArray) {
-            if (previousLetter == null) {
-                previousLetter = value;
-                g++;
-            }
-
-            if (value == "a"){
-                n_1++;
-                if (previousLetter == "b") {
-                    previousLetter = value;
-                    g++;
+        for(int i = 1; i < numberArray.length; i++) {
+            if(numberArray[i] > numberArray[i-1]){
+                if(previousWasSmaller) {
+                    runLength++;
+                } else {
+                    if(runLength <= doF){
+                        observedRuns[runLength-1]++;
+                    }
+                    runLength = 1;
+                    previousWasSmaller = true;
                 }
             }
-            else if (value == "b") {
-                n_2++;
-                if (previousLetter == "a") {
-                    previousLetter = value;
-                    g++;
+            if(numberArray[i] < numberArray[i-1]) {
+                if(!previousWasSmaller) {
+                    runLength++;
+                } else {
+                    if(runLength <= doF-1){
+                        observedRuns[runLength-1]++;
+                    }
+                    runLength = 1;
+                    previousWasSmaller = false;
                 }
+            }
+            if(numberArray[i] == numberArray[i-1]) {
+                runLength++;
             }
         }
+        if(runLength <= doF-1){
+            observedRuns[runLength-1]++;
+        }
 
-        //number of runs should be normal distributed given mean(expectedRuns) & standard deviation(standardDeviation)
-        //Calculate mean
-        double n = n_1+n_2;
-        double expectedRuns = ((2*n_1*n_2)/n)+1;
+        System.out.println("Observed Runs: ");
+        for(int i = 0; i < observedRuns.length; i++) {
+            System.out.print(observedRuns[i] + " : ");
+        }
 
-        //Calculate standard deviation
-        //double standardDeviation = Math.sqrt(((2*n_1*n_2)*(2*n_1*n_2-n_1-n_2))/Math.pow(n, 2)*(n-1));
-        double sdTop = ((2*n_1*n_2)*(2*n_1*n_2-n_1-n_2));
-        double sdBottom = Math.pow(n, 2)*(n-1);
-        double standardDeviation = Math.sqrt(sdTop/sdBottom);
+        //Calculate expected number of runs
+        System.out.println("");
+        double n = numberArray.length; // Sequence length
+        double[] expectedRunsList = new double[doF];
+        double expectedRun = 0;
 
-        //Absolute value for the Test Statistic
-        double z = Math.abs((g - expectedRuns)/standardDeviation);
+        System.out.println("Expected runs: ");
+        for (int i = 1; i < doF+1; i++) {
+            double numberFactorial = i+3;
+            double factorial = 1;
+            for(int k=1;k<=numberFactorial;k++){
+                factorial=factorial*k;
+            }
+            /*
+            double part1 = (2/factorial);
+            double part2 = (n*(Math.pow(i,2)+(3*i)+1));
+            double part3 = ((((Math.pow(i,3)+(3*Math.pow(i,2)))-i)-4));
+            */
+            expectedRun = (2/factorial)*((n*(Math.pow(i,2)+(3*i)+1))-((((Math.pow(i,3)+(3*Math.pow(i,2)))-i)-4)));
+            double intExpectedRun = expectedRun;
+            System.out.printf("%,.2f", intExpectedRun);
+            System.out.print(" : ");
+            expectedRunsList[i-1] = intExpectedRun;
+        }
 
-        double alpha = 0.05;
-        System.out.println("Running Runs test: ");
-        System.out.println("Number of a's = " + n_1);
-        System.out.println("Number of b's = " + n_2);
-        System.out.println("Expected number of runs = " + expectedRuns);
-        System.out.println("Actual number of runs = " + g);
-        System.out.println("Standard deviation = " + standardDeviation);
-        System.out.println("Level of significance : " + alpha);
+        //Calculate chi_squared
+        double chi_squared = 0;
+        for(int i = 0; i < doF-1; i++) {
+            chi_squared =+ Math.pow(expectedRunsList[i]-observedRuns[i],2)/expectedRunsList[i];
+        }
+        double chi_df = 12.59; //chi_df given DoF 6 and 0.05 alpha (LoS)
+        //double chi_df = 14.07; // chi_df given 7 DoF and 0.05 alpha (LoS)
 
-        double confidenceVale = 1.96; //For the standard normal distribution,  P(-1.96 < Z < 1.96) = 0.95, i.e.
-        // ,there is a 95% probability that a standard normal variable, Z, will fall between -1.96 and 1.96.
 
-        System.out.println("Critical value for normal distribution (at 95%): " + 1.96);
-        System.out.println("Test statistic is: " + z);
-
-        if (z < confidenceVale) {
+        System.out.println("\nLevel of significance (alpha): " + alpha);
+        System.out.println("Degrees of freedom (df): " + doF);
+        System.out.println("X_df: " + chi_df);
+        System.out.println("X_squared: " + chi_squared);
+        if (chi_squared < chi_df) {
             System.out.println("H_0 has NOT been rejected");
         } else {
             System.out.println("H_0 has been rejected");
         }
-        System.out.println(" ");
+        System.out.println();
+
 
     }
 }

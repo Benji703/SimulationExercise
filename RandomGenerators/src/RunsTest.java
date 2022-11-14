@@ -1,9 +1,9 @@
 import java.util.Arrays;
 
 public class RunsTest {
-    public static void RunTest(double[] numberArray) {
+    public static void RunTest(double[] numberArray, int freedom) {
         System.out.println("Running Runs test:");
-        int doF = 6; //Degrees of Freedom(DoF)
+        int doF = freedom; //Degrees of Freedom(DoF)
         double alpha = 0.05; //Level of Significances(LoS)
 
         //Observe number of runs as well as count length of each run
@@ -16,7 +16,6 @@ public class RunsTest {
         } else {
             previousWasSmaller =false;
         }
-
         for(int i = 1; i < numberArray.length; i++) {
             if(numberArray[i] > numberArray[i-1]){
                 if(previousWasSmaller) {
@@ -33,7 +32,7 @@ public class RunsTest {
                 if(!previousWasSmaller) {
                     runLength++;
                 } else {
-                    if(runLength <= doF-1){
+                    if(runLength <= doF){
                         observedRuns[runLength-1]++;
                     }
                     runLength = 1;
@@ -81,11 +80,18 @@ public class RunsTest {
         //Calculate chi_squared
         double chi_squared = 0;
         for(int i = 0; i < doF-1; i++) {
-            chi_squared =+ Math.pow(expectedRunsList[i]-observedRuns[i],2)/expectedRunsList[i];
+            chi_squared = chi_squared + Math.pow(expectedRunsList[i]-observedRuns[i],2)/expectedRunsList[i];
         }
-        double chi_df = 12.59; //chi_df given DoF 6 and 0.05 alpha (LoS)
-        //double chi_df = 14.07; // chi_df given 7 DoF and 0.05 alpha (LoS)
 
+        double chi_df = 0;
+        switch (doF) {
+            case (6):
+                chi_df = 11.07; //chi_df given DoF 6(-1) and 0.05 alpha (LoS)
+                break;
+            case (7):
+                chi_df = 12.59; // chi_df given 7 DoF(-1) and 0.05 alpha (LoS)
+                break;
+        }
 
         System.out.println("\nLevel of significance (alpha): " + alpha);
         System.out.println("Degrees of freedom (df): " + doF);
@@ -97,7 +103,5 @@ public class RunsTest {
             System.out.println("H_0 has been rejected");
         }
         System.out.println();
-
-
     }
 }

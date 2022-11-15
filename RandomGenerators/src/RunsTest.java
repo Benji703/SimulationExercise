@@ -86,10 +86,10 @@ public class RunsTest {
         double chi_df = 0;
         switch (doF) {
             case (6):
-                chi_df = 11.07; //chi_df given DoF 6(-1) and 0.05 alpha (LoS)
+                chi_df = 11.07; //chi_df given DoF 6 and 0.05 alpha (LoS)
                 break;
             case (7):
-                chi_df = 12.59; // chi_df given 7 DoF(-1) and 0.05 alpha (LoS)
+                chi_df = 12.59; // chi_df given 7 DoF and 0.05 alpha (LoS)
                 break;
         }
 

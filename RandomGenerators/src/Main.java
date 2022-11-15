@@ -48,7 +48,8 @@ public class Main {
         // Insert tests here...
         KolmogorovSmirnovTest.RunTest(lcgArray);
         ChiSquaredTest.RunTest(lcgArray);
-        RunsTest.RunTest(lcgArray,6);
+        RunsTest.RunTest(lcgArray,7);
+
     }
 
     private static void lcgRanduTests(double[] lcgRanduArray) {
@@ -56,6 +57,6 @@ public class Main {
         // Insert tests here...
         KolmogorovSmirnovTest.RunTest(lcgRanduArray);
         ChiSquaredTest.RunTest(lcgRanduArray);
-        RunsTest.RunTest(lcgRanduArray,7);
+        RunsTest.RunTest(lcgRanduArray,8);
     }
 }

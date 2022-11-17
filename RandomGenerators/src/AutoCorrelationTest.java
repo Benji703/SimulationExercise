@@ -6,10 +6,12 @@ public class AutoCorrelationTest {
         int m = 128;
         int n = randomNumbersArray.length;
         double bigM = ((n-i)/ m)-1;
+        System.out.println(bigM);
+        System.out.println("i+(M+1)m = " + (i+((bigM+1)*m)) + " should be below N = " + n);
 
         //Calculating rho or Pim hat
         double sumR = 0;
-        for (int j = i; j < n-m; j += m) {
+        for (int j = i-1; j < n-m; j += m) {
             double r = randomNumbersArray[j] * randomNumbersArray[j+m];
             sumR += r;
         }
@@ -29,7 +31,7 @@ public class AutoCorrelationTest {
         double minusZ = -1.96;
         double plusZ = 1.96;
 
-        System.out.println("Level of significance (alpha): 0.05");
+        System.out.println("Z0a/2 = " + plusZ + " for level of significance (alpha): 0.05");
         if (minusZ <= z && z <= plusZ) {
             System.out.println("H_0 has not been rejected");
         } else {

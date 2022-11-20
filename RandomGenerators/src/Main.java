@@ -41,6 +41,8 @@ public class Main {
         KolmogorovSmirnovTest.RunTest(javaRandomArray);
         ChiSquaredTest.RunTest(javaRandomArray);
         RunsTest.RunTest(javaRandomArray, 6);
+        AutoCorrelationTest.RunTest(javaRandomArray);
+        
     }
 
     private static void lcgTests(double[] lcgArray) {
@@ -49,6 +51,8 @@ public class Main {
         KolmogorovSmirnovTest.RunTest(lcgArray);
         ChiSquaredTest.RunTest(lcgArray);
         RunsTest.RunTest(lcgArray,7);
+        AutoCorrelationTest.RunTest(lcgArray);
+
 
     }
 
@@ -58,5 +62,6 @@ public class Main {
         KolmogorovSmirnovTest.RunTest(lcgRanduArray);
         ChiSquaredTest.RunTest(lcgRanduArray);
         RunsTest.RunTest(lcgRanduArray,8);
+        AutoCorrelationTest.RunTest(lcgRanduArray);
     }
 }

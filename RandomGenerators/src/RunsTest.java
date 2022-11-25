@@ -98,7 +98,7 @@ public class RunsTest {
         System.out.println("X_df: " + chi_df);
         System.out.println("X_squared: " + chi_squared);
         if (chi_squared < chi_df) {
-            System.out.println("Fail to recject H_0");
+            System.out.println("Fail to reject H_0");
         } else {
             System.out.println("H_0 has been rejected");
         }
